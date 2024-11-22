@@ -75,12 +75,12 @@ public class ServidorTCP {
 			String respuesta = entrada.readLine();
 			// comprobamos que la entrada no sea ni null ni FIN
 			if (respuesta != null && !respuesta.equals("FIN")) {
-				// alamcenamos en un array los numeros elinando los espacios entre ellos
+				// almacenamos en un array los numeros eliminando los espacios entre ellos
 				String numerosAlmacenados[] = respuesta.split(" ");
 				// inicializar el array con el numero de elementos recibido por el cliente
 				combinacionCliente = new int[numerosAlmacenados.length];
 				// bucle for que recorre el array con los numeros y se almacena en
-				// combinacionCliente
+				// combinacionCliente con un envoltorio para que se guarden como int
 				for (int i = 0; i < numerosAlmacenados.length; i++) {
 					combinacionCliente[i] = Integer.parseInt(numerosAlmacenados[i]);
 
