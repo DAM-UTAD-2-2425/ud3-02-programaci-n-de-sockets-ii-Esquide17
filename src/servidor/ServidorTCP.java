@@ -16,14 +16,14 @@ import java.util.TreeSet;
  * recibir un boleto, generar la respuesta y finalizar la sesion
  */
 public class ServidorTCP {
-	//array que almacenara las respuesta del servidor segun el numeo de aciertos
+	// array que almacenara las respuesta del servidor segun el numeo de aciertos
 	private String[] respuesta;
-	//array para almacenar la combinacion ganadora
+	// array para almacenar la combinacion ganadora
 	private int[] combinacion;
-	//variables para almacenar el reintegro y el complementario
+	// variables para almacenar el reintegro y el complementario
 	private int reintegro;
 	private int complementario;
-	//creacion del serverSocket y el socket del cliente
+	// creacion del serverSocket y el socket del cliente
 	private ServerSocket serverSocket;
 	private Socket cliente;
 	// creacion de BufferedReader y PrintWriter
@@ -47,13 +47,13 @@ public class ServidorTCP {
 		try {
 			// Crear el socket del servidor
 			serverSocket = new ServerSocket(puerto);
-			//llama a los metodos generarCombinacion e imprimirCombinacion
+			// llama a los metodos generarCombinacion e imprimirCombinacion
 			generarCombinacion();
 			imprimirCombinacion();
 
 			// esperar la conexión del cliente
 			System.out.println("Esperando conexión del cliente...");
-			//se acepta al cliente
+			// se acepta al cliente
 			cliente = serverSocket.accept();
 			System.out.println("Cliente conectado");
 
@@ -71,15 +71,16 @@ public class ServidorTCP {
 	public String leerCombinacion() {
 
 		try {
-			//utilizamos el BufferedReader para leer el mensaje del cliente
+			// utilizamos el BufferedReader para leer el mensaje del cliente
 			String respuesta = entrada.readLine();
-			//comprobamos que la entrada no sea ni null ni FIN
+			// comprobamos que la entrada no sea ni null ni FIN
 			if (respuesta != null && !respuesta.equals("FIN")) {
-				//alamcenamos en un array los numeros elinando los espacios entre ellos
+				// alamcenamos en un array los numeros elinando los espacios entre ellos
 				String numerosAlmacenados[] = respuesta.split(" ");
 				// inicializar el array con el numero de elementos recibido por el cliente
 				combinacionCliente = new int[numerosAlmacenados.length];
-				//bucle for que recorre el array con los numeros y se almacena en combinacionCliente
+				// bucle for que recorre el array con los numeros y se almacena en
+				// combinacionCliente
 				for (int i = 0; i < numerosAlmacenados.length; i++) {
 					combinacionCliente[i] = Integer.parseInt(numerosAlmacenados[i]);
 
@@ -93,14 +94,19 @@ public class ServidorTCP {
 	}
 
 	/**
-	 * @return Debe devolver una de las posibles respuestas configuradas
+	 * Metodo para comprobar cuantos acierto ha tenido el cliente y si hay numero
+	 * respetidos o erroneos
+	 * 
+	 * @return devuelve el numero de aciertos que ha tenido utilizando el array de
+	 *         respuestas
 	 */
 	public String comprobarBoleto() {
 		// if para comprobar que la combinación sea válida
 		if (combinacionCliente == null || combinacionCliente.length != 6) {
 			return respuesta[8];
 		}
-
+		// creacion de variable int para almacenar el numero de aciertos y booleanos
+		// para comprobar el reintegro y el complementario
 		int aciertos = 0;
 		boolean complementarioAcertado = false;
 		boolean reintegroAcertado = false;
@@ -124,16 +130,16 @@ public class ServidorTCP {
 				}
 
 			}
-			//if para comporbar si se ha acertado el complementario
+			// if para comporbar si se ha acertado el complementario
 			if (numero == complementario) {
 				complementarioAcertado = true;
 			}
-			//if para comporbar si se ha acertado el reintegro
+			// if para comporbar si se ha acertado el reintegro
 			if (numero == reintegro) {
 				reintegroAcertado = true;
 			}
 		}
-		//respuesta que se dara segun el numero de aciertos que ha tenido el cliente
+		// respuesta que se dara segun el numero de aciertos que ha tenido el cliente
 		if (aciertos == 6) {
 			return respuesta[2];
 		} else if (aciertos == 5 && complementarioAcertado) {
@@ -153,6 +159,8 @@ public class ServidorTCP {
 	}
 
 	/**
+	 * Metodo para enviar respuestas al cliente
+	 * 
 	 * @param respuesta se debe enviar al ciente, se utilza el PrintWriter
 	 */
 	public void enviarRespuesta(String respuesta) {
@@ -164,7 +172,7 @@ public class ServidorTCP {
 	 */
 	public void finSesion() {
 		try {
-			//cierra el serverSocket
+			// cierra el serverSocket
 			serverSocket.close();
 			System.out.println(" -> Servidor Finalizado");
 
